@@ -1,0 +1,12 @@
+.demo-row-is-clicked {
+    font-weight: bold;
+}
+
+.type-table, .move-table, .ability-table, .generation-table {
+    height:400px;
+    overflow: auto;
+}
+
+table {
+    width: 50%;
+}
