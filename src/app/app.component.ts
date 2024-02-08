@@ -159,7 +159,7 @@ export class AppComponent {
         responses.forEach((response, index) => {
           // Handle data for the corresponding endpoint
           let currentPokemon: APIData[] = [];
-          if(response.pokemon) {
+          if (response.pokemon) {
             response.pokemon.forEach((element: any) => {
               currentPokemon.push(element.pokemon);
             })
@@ -167,20 +167,15 @@ export class AppComponent {
             currentPokemon = response.learned_by_pokemon;
           }
 
-          if(index == 0 && currentPokemon) {
+          if (index == 0 && currentPokemon) {
             pokemon = currentPokemon;
+            console.log('index zero: ' + JSON.stringify(pokemon));
           } else if (currentPokemon && pokemon) {
-            pokemon.forEach(element => {
-              
-            })
+            pokemon = pokemon.filter(p => currentPokemon.some(cp => cp.name === p.name && cp.url === p.url));
+            console.log('index ' + index + ': ' + JSON.stringify(pokemon));
           }
-
-
-
-
-
-         // console.log(`Data for ` + index + `endpoint ${endpoints[index]}:`, response);
         });
+        console.log(JSON.stringify(pokemon));
       },
       error => {
         // Handle error if any of the requests fail
