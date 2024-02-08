@@ -40,12 +40,13 @@
     <hr />
     <pre>Model: {{ chosenMoves | json }}</pre>
 
+    <button (click)="findPokemon()">Find Matching Pokemon</button>
 
-    <ng-template #template let-r="result" let-t="term">
+    <!-- <ng-template #template let-r="result" let-t="term">
       <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="me-1"
         style="width: 16px" />
       <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-    </ng-template>
+    </ng-template> -->
     <!-- 
     <div class="type-table">
       <table mat-table [dataSource]="typeDataSource">
