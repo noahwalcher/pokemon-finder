@@ -179,6 +179,10 @@ export class AppComponent {
             this.pokemon = this.pokemon.filter(p => currentPokemon.some(cp => cp.name === p.name && cp.url === p.url));
           }
         });
+        if (this.pokemon.length < 1) {
+          let empty: APIData = {name: 'Nothing', url: ''};
+          this.pokemon.push(empty);
+        }
         console.log(JSON.stringify(this.pokemon));
       },
       error => {
