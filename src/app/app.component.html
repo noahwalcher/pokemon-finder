@@ -11,10 +11,9 @@
         [inputFormatter]="formatter" [resultFormatter]="formatter" [editable]="false" #instance="ngbTypeahead"
         (selectItem)="onSelect($event, typeInput, 'type'); typeInput.value='' "/>
     </div>
+    <button *ngFor="let type of chosenTypes; index as i" (click)="removeItem(chosenTypes, i)">{{type.name}}</button>
 
     <hr />
-    <pre>Model: {{ chosenTypes | json }}</pre>
-
 
 
     <label for="typeahead-focus">Select up to three abilities:</label>
@@ -23,12 +22,9 @@
       (click)="abilityClick$.next($any($event).target.value)" [resultFormatter]="formatter" #instance="ngbTypeahead"
       [inputFormatter]="formatter" (selectItem)="onSelect($event, abilityInput, 'ability'); abilityInput.value='' "
       [editable]="false" />
+      <button *ngFor="let ability of chosenAbilities; index as i" (click)="removeItem(chosenAbilities, i)">{{ability.name}}</button>
 
     <hr />
-    <pre>Model: {{ chosenAbilities | json }}</pre>
-
-
-
 
     <label for="typeahead-focus">Select any number of moves:</label>
     <input id="typeahead-focus" #moveInput type="text" class="form-control"
@@ -36,11 +32,14 @@
       (click)="moveClick$.next($any($event).target.value)" [resultFormatter]="formatter" #instance="ngbTypeahead"
       [inputFormatter]="formatter" (selectItem)="onSelect($event, moveInput, 'move'); moveInput.value='' "
       [editable]="false" />
+      <button *ngFor="let move of chosenMoves; index as i" (click)="removeItem(chosenMoves, i)">{{move.name}}</button>
 
     <hr />
-    <pre>Model: {{ chosenMoves | json }}</pre>
+
 
     <button (click)="findPokemon()">Find Matching Pokemon</button>
+    <div *ngFor="let pokemon of pokemon">{{pokemon.name}}</div>
+
 
     <!-- <ng-template #template let-r="result" let-t="term">
       <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="me-1"

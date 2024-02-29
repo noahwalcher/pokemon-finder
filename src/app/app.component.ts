@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import abilities from 'src/assets/abilities.json';
 import generations from 'src/assets/generations.json';
@@ -23,7 +24,7 @@ import { CachingService } from './caching.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NgbTypeaheadModule, JsonPipe, FormsModule, RouterOutlet, MatInputModule, MatIconModule, MatTableModule, MatCheckboxModule],
+  imports: [CommonModule, NgbTypeaheadModule, JsonPipe, FormsModule, RouterOutlet, MatInputModule, MatIconModule, MatTableModule, MatCheckboxModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -32,6 +33,7 @@ export class AppComponent {
   constructor(private http: HttpClient, private cachingService: CachingService) { }
 
   title = 'pokemon-finder';
+  pokemon: APIData[] = [];
 
   // Arrays holding all moves, abilities, generations, and types
   moves: APIData[] = moves;
@@ -67,6 +69,10 @@ export class AppComponent {
     if (type == 'move') { this.addMove($event.item) };
     if (type == 'type') { this.addType($event.item) };
   };
+
+  removeItem(array: APIData[], index: any) {
+    array.splice(index, 1);
+  }
 
   // Adds the chosen type to the user array. Limits to 2 types in the array
   addType(type: any) {
@@ -141,7 +147,7 @@ export class AppComponent {
   }
 
   async findPokemon() {
-    let pokemon: APIData[] = [];
+    this.pokemon = [];
     let endpoints: string[] = [];
     this.chosenTypes.forEach(element => {
       endpoints.push(element.url);
@@ -168,14 +174,12 @@ export class AppComponent {
           }
 
           if (index == 0 && currentPokemon) {
-            pokemon = currentPokemon;
-            console.log('index zero: ' + JSON.stringify(pokemon));
-          } else if (currentPokemon && pokemon) {
-            pokemon = pokemon.filter(p => currentPokemon.some(cp => cp.name === p.name && cp.url === p.url));
-            console.log('index ' + index + ': ' + JSON.stringify(pokemon));
+            this.pokemon = currentPokemon;
+          } else if (currentPokemon && this.pokemon) {
+            this.pokemon = this.pokemon.filter(p => currentPokemon.some(cp => cp.name === p.name && cp.url === p.url));
           }
         });
-        console.log(JSON.stringify(pokemon));
+        console.log(JSON.stringify(this.pokemon));
       },
       error => {
         // Handle error if any of the requests fail
